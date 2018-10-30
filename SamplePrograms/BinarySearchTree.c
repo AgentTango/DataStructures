@@ -90,6 +90,44 @@ void random ()
 		ptr=ptr->rchild;
 	}
 }
+struct node * minValueNode(struct node *node1) 
+{ 
+    struct node *current = node1; 
+  
+    while (current->left != NULL) 
+        current = current->left; 
+  
+    return current; 
+}
+struct node * deletenode(struct node *root,int key)
+{
+    if(root==NULL)
+    return root;
+    if(key < root->key)
+    root->left=deletenode(root->left,key);
+    else if(key>root->key)
+    root->right=deletenode(root->right,key);
+    else{
+        if(root->left==NULL)
+        {
+            struct node *temp=root->right;
+            free(root);
+            return temp;
+        }
+        else if (root->right == NULL) 
+        { 
+            struct node *temp = root->left; 
+            free(root); 
+            return temp; 
+        } 
+        struct node * temp = minValueNode(root->right); 
+        root->key = temp->key; 
+        root->right = deletenode(root->right, temp->key); 
+
+    }
+    return root;
+
+}
 int main ()
 {
 	//when you think there is gonna be a switch case here ..
